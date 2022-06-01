@@ -47,6 +47,7 @@ function select(response) {
     }
 
     document.getElementById('action.generate').setAttribute('onclick','call_gen()');
+    document.getElementById('action.generate').classList.remove('shine');
     document.getElementById('action.generate').innerHTML = `<span class="content">Generate</span>`;
 }
 
