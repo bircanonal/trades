@@ -13,7 +13,7 @@ function open_import_window() {
         <div class="cover"><img src="https://sky.plexion.dev/wall/mine.png"></div>
         <div class="header" style="text-align: center;"><h4>Import data</h4></div>
         <div class="info" style="text-align: center;">
-            <p>Import villager trades data in <a href="/">this format</a>.</p>
+            <p>Import villager trades data in <a href="https://github.com/plexiondev/trades/wiki/Creating-a-suitable-JSON-file">this format</a>.</p>
             <br>
             <textarea class="generic" type="text" id="input" placeholder="Enter input.." style="width: 420px; height: 200px;"></textarea>
         </div>
