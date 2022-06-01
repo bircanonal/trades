@@ -10,7 +10,7 @@ function open_import_window() {
     em_window.setAttribute('id','import_window');
 
     em_window.innerHTML = (`
-        <div class="cover"><img src="/library/vip/cover-big.png"></div>
+        <div class="cover"><img src="https://sky.plexion.dev/wall/mine.png"></div>
         <div class="header" style="text-align: center;"><h4>Import data</h4></div>
         <div class="info" style="text-align: center;">
             <p>Import villager trades data in <a href="/">this format</a>.</p>
