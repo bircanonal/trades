@@ -181,8 +181,10 @@ function generate(trade) {
                     // format enchants
                     let format_buy_enchants = '';
                     let format_sell_enchants = '';
-                    for (let e in buy_enchants) { format_buy_enchants = `${format_buy_enchants}${buy_enchants[e].id} ${buy_enchants[e].lvl}, `; }
-                    for (let e in sell_enchants) { format_sell_enchants = `${format_sell_enchants}${sell_enchants[e].id} ${sell_enchants[e].lvl}, `; }
+                    for (let e in buy_enchants)
+                        format_buy_enchants = `${format_buy_enchants}${buy_enchants[e].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_enchants[e].lvl)}<br>`;
+                    for (let e in sell_enchants)
+                        format_sell_enchants = `${format_sell_enchants}${sell_enchants[e].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_enchants[e].lvl)}<br>`;
 
 
                     // record
@@ -211,6 +213,32 @@ function generate(trade) {
                     em_sell_item.classList.add('name');
                     em_sell_item.innerHTML = `${sell_name}<label class="count">${data[n][i].sell.count}</label>`;
                     em_record.appendChild(em_sell_item);
+
+                    // tooltips
+                    tippy(em_buy_item, {
+                        content: `
+                        <strong>${buy_name}</strong><br>
+                        <span style="color: var(--text-main);">${buy_description}</span>
+                        <br>
+                        <span style="color: var(--text-main);">${format_buy_enchants}</span><br>
+                        <span style="color: var(--text-alt);">minecraft:${data[n][i].buy.id}</span>
+                        `,
+                        followCursor: true,
+                        placement: 'bottom-start',
+                        allowHTML: true
+                    });
+                    tippy(em_sell_item, {
+                        content: `
+                        <strong>${sell_name}</strong><br>
+                        <span style="color: var(--text-main);">${sell_description}</span>
+                        <br>
+                        <span style="color: var(--text-main);">${format_sell_enchants}</span><br>
+                        <span style="color: var(--text-alt);">minecraft:${data[n][i].sell.id}</span>
+                        `,
+                        followCursor: true,
+                        placement: 'bottom-start',
+                        allowHTML: true
+                    });
 
                     document.getElementById(`table-body`).appendChild(em_record);
                 }
@@ -269,4 +297,40 @@ function copy() {
 
     // write to clipboard
     navigator.clipboard.writeText(selector.textContent);
+}
+
+
+// sentence case
+// https://stackoverflow.com/a/5574446
+String.prototype.toProperCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
+
+// convert to roman numerals
+// https://stackoverflow.com/a/41358305
+function convertToRoman(num) {
+    var roman = {
+        M: 1000,
+        CM: 900,
+        D: 500,
+        CD: 400,
+        C: 100,
+        XC: 90,
+        L: 50,
+        XL: 40,
+        X: 10,
+        IX: 9,
+        V: 5,
+        IV: 4,
+        I: 1
+    };
+    var str = '';
+
+    for (var i of Object.keys(roman)) {
+        var q = Math.floor(num / roman[i]);
+        num -= q * roman[i];
+        str += i.repeat(q);
+    }
+
+    return str;
 }
