@@ -181,21 +181,37 @@ function generate(trade) {
                     // format enchants
                     let format_buy_enchants = '';
                     let format_sell_enchants = '';
-                    for (let e in buy_enchants) { format_buy_enchants = `${format_buy_enchants}${buy_enchants[e].id} ${buy_enchants[e].lvl} `; }
-                    for (let e in sell_enchants) { format_sell_enchants = `${format_sell_enchants}${sell_enchants[e].id} ${sell_enchants[e].lvl} `; }
+                    for (let e in buy_enchants) { format_buy_enchants = `${format_buy_enchants}${buy_enchants[e].id} ${buy_enchants[e].lvl}, `; }
+                    for (let e in sell_enchants) { format_sell_enchants = `${format_sell_enchants}${sell_enchants[e].id} ${sell_enchants[e].lvl}, `; }
+
 
                     // record
                     let em_record = document.createElement('tr');
-                    em_record.innerHTML = (`
-                    <th class="icon${buy_enchant}"><div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[n][i].buy.id}.png"</div></th>
-                    <th class="name has-tooltip${buy_enchant}" title="${buy_description} ${format_buy_enchants}">${buy_name}<label class="count">${data[n][i].buy.count}</label></th>
-                    <th class="arrow-get"><i class="icon w-24" data-feather="arrow-right"></i></th>
-                    <th class="icon${sell_enchant}"><div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[n][i].sell.id}.png"</div></th>
-                    <th class="name has-tooltip${sell_enchant}" title="${sell_description} ${format_sell_enchants}">${sell_name}<label class="count">${data[n][i].sell.count}</label></th>
-                    `);
 
+                    // buy item
+                    let em_buy_icon = document.createElement('th');
+                    em_buy_icon.classList.add('icon');
+                    em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[n][i].buy.id}.png"></div>`;
+                    em_record.appendChild(em_buy_icon);
+                    let em_buy_item = document.createElement('th');
+                    em_buy_item.classList.add('name');
+                    em_buy_item.innerHTML = `${buy_name}<label class="count">${data[n][i].buy.count}</label>`;
+                    em_record.appendChild(em_buy_item);
+                    // seperator
+                    let em_seperator = document.createElement('th');
+                    em_seperator.classList.add('arrow-get');
+                    em_seperator.innerHTMl = '<i class="icon w-24" data-feather="arrow-right"></i>';
+                    em_record.appendChild(em_seperator);
+                    // sell item
+                    let em_sell_icon = document.createElement('th');
+                    em_sell_icon.classList.add('icon');
+                    em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[n][i].sell.id}.png"></div>`;
+                    em_record.appendChild(em_sell_icon);
+                    let em_sell_item = document.createElement('th');
+                    em_sell_item.classList.add('name');
+                    em_sell_item.innerHTML = `${sell_name}<label class="count">${data[n][i].sell.count}</label>`;
+                    em_record.appendChild(em_sell_item);
 
-                    // append
                     document.getElementById(`table-body`).appendChild(em_record);
                 }
                 feather.replace();
@@ -213,9 +229,9 @@ function nbt(type,nbt,n,i) {
     let custom_name = '';
     let custom_description = '';
     let custom_model = '';
-    let custom_enchants = [];
-    let damage = 0;
-    let unbreakable = 0;
+    let item_enchants = [];
+    let item_damage = 0;
+    let item_unbreakable = 0;
 
     for (let x in data[n][i][`${type}`].nbt) {
         if (x == 'name') {
@@ -231,20 +247,20 @@ function nbt(type,nbt,n,i) {
             nbt.CustomModelData = data[n][i][`${type}`].nbt.model;
         } else if (x == 'enchants') {
             if (typeof nbt.Enchantments == 'undefined') { nbt.Enchantments = [] }
-            custom_enchants = data[n][i][`${type}`].nbt.enchants;
+            item_enchants = data[n][i][`${type}`].nbt.enchants;
             for (let e in data[n][i][`${type}`].nbt.enchants) {
                 nbt.Enchantments.push({id:`minecraft:${data[n][i][`${type}`].nbt.enchants[e].id}`,lvl:data[n][i][`${type}`].nbt.enchants[e].lvl});
             }
         } else if (x == 'damage') {
-            damage = data[n][i][`${type}`].nbt.damage;
+            item_damage = data[n][i][`${type}`].nbt.damage;
             nbt.Damage = data[n][i][`${type}`].nbt.damage;
         } else if (x == 'unbreakable') {
-            unbreakable = data[n][i][`${type}`].nbt.unbreakable;
+            item_unbreakable = data[n][i][`${type}`].nbt.unbreakable;
             nbt.Unbreakable = data[n][i][`${type}`].nbt.unbreakable;
         }
     }
 
-    return [nbt,custom_name,custom_description,custom_model,custom_enchants,damage,unbreakable];
+    return [nbt,custom_name,custom_description,custom_model,item_enchants,item_damage,item_unbreakable];
 }
 
 // copy
