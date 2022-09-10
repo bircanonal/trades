@@ -29,14 +29,12 @@ function open_import_window() {
 }
 
 function import_data() {
-    select(document.getElementById('input').value);
+    select(JSON.parse(document.getElementById('input').value));
     exit_windows();
 }
 
 // fill up select
-function select(response) {
-    data = JSON.parse(response);
-
+function select(data) {
     for (let i in data.trades) {
         let em_option = document.createElement('option');
         em_option.value = `${data.trades[i].id}`;
