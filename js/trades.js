@@ -29,8 +29,12 @@ function open_import_window() {
 }
 
 function import_data() {
-    select(JSON.parse(document.getElementById('input').value));
-    exit_windows();
+    try {
+        select(JSON.parse(document.getElementById('input').value));
+        exit_windows();
+    } catch(e) {
+        notify('error','Invalid data provided, please try again.',false);
+    }
 }
 
 // fill up select
