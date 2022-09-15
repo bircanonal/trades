@@ -38,7 +38,8 @@ function import_data() {
 }
 
 // fill up select
-function select(data) {
+function select(import_data) {
+    data = import_data;
     for (let i in data.trades) {
         let em_option = document.createElement('option');
         em_option.value = `${data.trades[i].id}`;
@@ -227,7 +228,8 @@ function generate(trade) {
                         `,
                         followCursor: true,
                         placement: 'bottom-start',
-                        allowHTML: true
+                        allowHTML: true,
+                        arrow: false
                     });
                     tippy(em_sell_item, {
                         content: `
@@ -239,7 +241,8 @@ function generate(trade) {
                         `,
                         followCursor: true,
                         placement: 'bottom-start',
-                        allowHTML: true
+                        allowHTML: true,
+                        arrow: false
                     });
 
                     document.getElementById(`table-body`).appendChild(em_record);
