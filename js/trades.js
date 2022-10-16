@@ -40,6 +40,7 @@ function import_data() {
 // fill up select
 function select(import_data) {
     data = import_data;
+
     for (let i in data.trades) {
         let em_option = document.createElement('option');
         em_option.value = `${data.trades[i].id}`;
@@ -59,8 +60,12 @@ function call_gen() {
 }
 
 
-// generate
-function generate(trade) {
+/**
+ * generate output
+ * @param {string} villager_id current villager id
+ */
+function generate(villager_id) {
+    // clear tables and output
     document.getElementById('output').innerHTML = '';
     document.getElementById('table-body').innerHTML = (`
     <tr>
@@ -73,15 +78,14 @@ function generate(trade) {
     </tr>
     `);
 
+    // assign villager name
     let name;
-
-    for (let i in data.trades) {
-        if (data.trades[i].id == trade) {
+    for (let i in data.trades)
+        if (data.trades[i].id == villager_id)
             name = data.trades[i].name;
-        }
-    }
-
+    // display name
     document.getElementById('attr.name').textContent = `${name}`;
+
 
     // assemble json
     var object = {display:{},EntityTag:{}};
@@ -96,75 +100,59 @@ function generate(trade) {
     //}
 
     // entity data
-    object.EntityTag.CustomName = `{"text":"${name}"}`;
-    object.EntityTag.NoAI = 1;
-    object.EntityTag.Offers = {Recipes:[]};
+    object.EntityTag.CustomName = `{"text":"${name}"}`; // set villager name
+    object.EntityTag.NoAI = 1; // remove AI (to remove 1.14 professions)
+    object.EntityTag.Offers = {Recipes:[]}; // clear default offers
 
 
-    // loop through rates
-    for (let n in data) {
-        if (n != 'trades') {
-            // not trades array
+    // assign trades
+    for (let trade in data) {
+        // 'trades' is reserved for assigning villagers
+        // this is by default skipped, but a better
+        // alternative will arrive in the future
+        if (trade != 'trades') {
+            for (let i in data[trade]) {
+                // ensure assigned to 'villager_id'
+                // this will also be replaced by a better
+                // alternative in the future
+                let has_matched_villager = false;
+                for (let t in data[trade][i].trades)
+                    if (data[trade][i].trades[t] == villager_id)
+                        has_matched_villager = true;
 
-            for (let i in data[n]) {
-                // valid trade?
-                let match = false;
-                for (let t in data[n][i].trades) {
-                    if (data[n][i].trades[t] == trade) { match = true }
-                }
-                if (match == true) {
-                    // if valid
+                // continue
+                if (has_matched_villager) {
+                    // process item
+                    let buy_data = nbt('buy',{},{},trade,i);
+                    let sell_data = nbt('sell',{},{},trade,i);
 
-                    // buy
-                    var buy_name = data[n][i].buy.id;
-                    var buy_description = '';
-                    var buy_model = '';
-                    var buy_enchants= [];
-                    var buy_damage = 0;
-                    var buy_unbreakable = 0;
-                    // sell
-                    var sell_name = data[n][i].sell.id;
-                    var sell_description = '';
-                    var sell_model = '';
-                    var sell_enchants = [];
-                    var sell_damage = 0;
-                    var sell_unbreakable = 0;
+                    // NBT
+                    let buy_nbt = buy_data.nbt;
+                    let sell_nbt = sell_data.nbt;
 
-                    // advanced nbt
-                    try {
-                        var buy_data = nbt('buy',{},n,i);
-                        var sell_data = nbt('sell',{},n,i);
-
-                        buy_nbt = buy_data[0]
-                        sell_nbt = sell_data[0]
-
-                        if (buy_data[1] != '') { buy_name = buy_data[1] }
-                        if (buy_data[2] != '') { buy_description = buy_data[2] }
-                        if (buy_data[3] != '') { buy_model = buy_data[3] }
-                        if (buy_data[4] != '') { buy_enchants = buy_data[4] }
-                        if (buy_data[5] != 0) { buy_damage = buy_data[5] }
-                        if (buy_data[6] != 0) { buy_unbreakable = buy_data[6] }
-
-                        if (sell_data[1] != '') { sell_name = sell_data[1] }
-                        if (sell_data[2] != '') { sell_description = sell_data[2] }
-                        if (sell_data[3] != '') { sell_model = sell_data[3] }
-                        if (sell_data[4] != '') { sell_enchants = sell_data[4] }
-                        if (sell_data[5] != 0) { sell_damage = sell_data[5] }
-                        if (sell_data[6] != 0) { sell_unbreakable = sell_data[6] }
-                    } catch(error) { }
+                    // visual item
+                    let buy_item = buy_data.item;
+                    let sell_item = sell_data.item;
 
                     // buy & sell data
-                    var items = {};
+                    let items = {};
 
                     // buy item
-                    items.buy = {id:`${data[n][i].buy.id}`,Count:data[n][i].buy.count};
-                    if (typeof buy_nbt != 'undefined') { items.buy.tag = buy_nbt; }
+                    items.buy = {
+                        id: data[trade][i].buy.id,
+                        Count: data[trade][i].buy.count,
+                        tag: buy_nbt
+                    };
 
                     // sell item
-                    items.sell = {id:`${data[n][i].sell.id}`,Count:data[n][i].sell.count};
-                    if (typeof sell_nbt != 'undefined') { items.sell.tag = sell_nbt; }
+                    items.sell = {
+                        id: data[trade][i].sell.id,
+                        Count: data[trade][i].sell.count,
+                        tag: sell_nbt
+                    };
 
-                    // disable locking trades
+                    // prevent trades from auto-locking
+                    // due to default mechanics
                     items.priceMultipler = 0.0;
                     items.maxUses = 2147483647;
                     items.demand = 0;
@@ -178,16 +166,18 @@ function generate(trade) {
                     let buy_enchant = '';
                     let sell_enchant = '';
                     // check for enchants
-                    if (buy_enchants.length > 0) { buy_enchant = ' enchant'; }
-                    if (sell_enchants.length > 0) { sell_enchant = ' enchant'; }
+                    if (buy_item.enchants.length > 0)
+                        buy_enchant = ' enchant';
+                    if (sell_item.enchants.length > 0)
+                        sell_enchant = ' enchant';
 
                     // format enchants
                     let format_buy_enchants = '';
                     let format_sell_enchants = '';
-                    for (let e in buy_enchants)
-                        format_buy_enchants = `${format_buy_enchants}${buy_enchants[e].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_enchants[e].lvl)}<br>`;
-                    for (let e in sell_enchants)
-                        format_sell_enchants = `${format_sell_enchants}${sell_enchants[e].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_enchants[e].lvl)}<br>`;
+                    for (let enchant in buy_item.enchants)
+                        format_buy_enchants = `${format_buy_enchants}${buy_item.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_item.enchants[enchant].lvl)}<br>`;
+                    for (let enchant in sell_item.enchants)
+                        format_sell_enchants = `${format_sell_enchants}${sell_item.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_item.enchants[enchant].lvl)}<br>`;
 
 
                     // record
@@ -196,11 +186,11 @@ function generate(trade) {
                     // buy item
                     let em_buy_icon = document.createElement('th');
                     em_buy_icon.classList.add('icon');
-                    em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[n][i].buy.id}.png"></div>`;
+                    em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[trade][i].buy.id}.png"></div>`;
                     em_record.appendChild(em_buy_icon);
                     let em_buy_item = document.createElement('th');
                     em_buy_item.classList.add('name');
-                    em_buy_item.innerHTML = `${buy_name}<label class="count">${data[n][i].buy.count}</label>`;
+                    em_buy_item.innerHTML = `${buy_item.custom_name}<label class="count">${data[trade][i].buy.count}</label>`;
                     em_record.appendChild(em_buy_item);
                     // seperator
                     let em_seperator = document.createElement('th');
@@ -210,21 +200,21 @@ function generate(trade) {
                     // sell item
                     let em_sell_icon = document.createElement('th');
                     em_sell_icon.classList.add('icon');
-                    em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[n][i].sell.id}.png"></div>`;
+                    em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${data[trade][i].sell.id}.png"></div>`;
                     em_record.appendChild(em_sell_icon);
                     let em_sell_item = document.createElement('th');
                     em_sell_item.classList.add('name');
-                    em_sell_item.innerHTML = `${sell_name}<label class="count">${data[n][i].sell.count}</label>`;
+                    em_sell_item.innerHTML = `${sell_item.custom_name}<label class="count">${data[trade][i].sell.count}</label>`;
                     em_record.appendChild(em_sell_item);
 
                     // tooltips
                     tippy(em_buy_item, {
                         content: `
-                        <strong>${buy_name}</strong><br>
-                        <span style="color: var(--text-main);">${buy_description}</span>
+                        <strong>${buy_item.custom_name}</strong><br>
+                        <span style="color: var(--text-main);">${buy_item.custom_description}</span>
                         <br>
                         <span style="color: var(--text-main);">${format_buy_enchants}</span><br>
-                        <span style="color: var(--text-alt);">minecraft:${data[n][i].buy.id}</span>
+                        <span style="color: var(--text-alt);">minecraft:${data[trade][i].buy.id}</span>
                         `,
                         followCursor: true,
                         placement: 'bottom-start',
@@ -233,11 +223,11 @@ function generate(trade) {
                     });
                     tippy(em_sell_item, {
                         content: `
-                        <strong>${sell_name}</strong><br>
-                        <span style="color: var(--text-main);">${sell_description}</span>
+                        <strong>${sell_item.custom_name}</strong><br>
+                        <span style="color: var(--text-main);">${sell_item.custom_description}</span>
                         <br>
                         <span style="color: var(--text-main);">${format_sell_enchants}</span><br>
-                        <span style="color: var(--text-alt);">minecraft:${data[n][i].sell.id}</span>
+                        <span style="color: var(--text-alt);">minecraft:${data[trade][i].sell.id}</span>
                         `,
                         followCursor: true,
                         placement: 'bottom-start',
@@ -257,43 +247,60 @@ function generate(trade) {
     document.getElementById('output').innerHTML = `${output}`;
 }
 
-// parse nbt
-function nbt(type,nbt,n,i) {
-    let custom_name = '';
-    let custom_description = '';
-    let custom_model = '';
-    let item_enchants = [];
-    let item_damage = 0;
-    let item_unbreakable = 0;
+/**
+ * 
+ * @param {string} type buy/sell
+ * @param {object} nbt NBT
+ * @param {object} item item
+ * @param {string} trade trade id
+ * @param {string} i loop index
+ * @returns final nbt and item objects
+ */
+function nbt(type,nbt,item,trade,i) {
+    item = {
+        'custom_name': data[trade][i][`${type}`].id,
+        'custom_description': '',
+        'custom_model': '',
+        'enchants': [],
+        'damage': '',
+        'unbreakable': 0
+    }
 
-    for (let x in data[n][i][`${type}`].nbt) {
-        if (x == 'name') {
-            if (typeof nbt.display == 'undefined') { nbt.display = {} }
-            custom_name = data[n][i][`${type}`].nbt.name;
-            nbt.display.Name = `{"text":"${data[n][i][`${type}`].nbt.name}","italic":false}`;
-        } else if (x == 'description') {
-            if (typeof nbt.display == 'undefined') { nbt.display = {} }
-            custom_description = data[n][i][`${type}`].nbt.description;
-            nbt.display.Lore = [`{"text":"${data[n][i][`${type}`].nbt.description}","italic":false,"color":"gray"}`];
-        } else if (x == 'model') {
-            custom_model = data[n][i][`${type}`].nbt.model;
-            nbt.CustomModelData = data[n][i][`${type}`].nbt.model;
-        } else if (x == 'enchants') {
-            if (typeof nbt.Enchantments == 'undefined') { nbt.Enchantments = [] }
-            item_enchants = data[n][i][`${type}`].nbt.enchants;
-            for (let e in data[n][i][`${type}`].nbt.enchants) {
-                nbt.Enchantments.push({id:`minecraft:${data[n][i][`${type}`].nbt.enchants[e].id}`,lvl:data[n][i][`${type}`].nbt.enchants[e].lvl});
-            }
-        } else if (x == 'damage') {
-            item_damage = data[n][i][`${type}`].nbt.damage;
-            nbt.Damage = data[n][i][`${type}`].nbt.damage;
-        } else if (x == 'unbreakable') {
-            item_unbreakable = data[n][i][`${type}`].nbt.unbreakable;
-            nbt.Unbreakable = data[n][i][`${type}`].nbt.unbreakable;
+    for (let entry in data[trade][i][`${type}`].nbt) {
+        if (entry == 'name') {
+            if (typeof nbt.display == 'undefined')
+                nbt.display = {};
+
+            item.custom_name = data[trade][i][`${type}`].nbt.name;
+            nbt.display.Name = `{"text":"${data[trade][i][`${type}`].nbt.name}","italic":false}`;
+        } else if (entry == 'description') {
+            if (typeof nbt.display == 'undefined')
+                nbt.display = {};
+
+            item.custom_description = data[trade][i][`${type}`].nbt.description;
+            nbt.display.Lore = [`{"text":"${data[trade][i][`${type}`].nbt.description}","italic":false,"color":"gray"}`];
+        } else if (entry == 'model') {
+            item.custom_model = data[trade][i][`${type}`].nbt.model;
+            nbt.CustomModelData = data[trade][i][`${type}`].nbt.model;
+        } else if (entry == 'enchants') {
+            if (typeof nbt.Enchantments == 'undefined')
+                nbt.Enchantments = [];
+
+            item.item_enchants = data[trade][i][`${type}`].nbt.enchants;
+            for (let enchant in data[trade][i][`${type}`].nbt.enchants)
+                nbt.Enchantments.push({
+                    id:`minecraft:${data[trade][i][`${type}`].nbt.enchants[enchant].id}`,
+                    lvl:data[trade][i][`${type}`].nbt.enchants[enchant].lvl});
+        } else if (entry == 'damage') {
+            item.damage = data[trade][i][`${type}`].nbt.damage;
+            nbt.Damage = data[trade][i][`${type}`].nbt.damage;
+        } else if (entry == 'unbreakable') {
+            item.unbreakable = data[trade][i][`${type}`].nbt.unbreakable;
+            nbt.Unbreakable = data[trade][i][`${type}`].nbt.unbreakable;
         }
     }
 
-    return [nbt,custom_name,custom_description,custom_model,item_enchants,item_damage,item_unbreakable];
+    return {'nbt': nbt, 'item': item};
 }
 
 // copy
