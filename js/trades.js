@@ -257,8 +257,11 @@ function generate(villager_id) {
  * @returns final nbt and item objects
  */
 function nbt(type,nbt,item,trade,i) {
+    let current_trade = data[trade][i][`${type}`];
+
+    // default values
     item = {
-        'custom_name': data[trade][i][`${type}`].id,
+        'custom_name': current_trade.id,
         'custom_description': '',
         'custom_model': '',
         'enchants': [],
@@ -266,37 +269,37 @@ function nbt(type,nbt,item,trade,i) {
         'unbreakable': 0
     }
 
-    for (let entry in data[trade][i][`${type}`].nbt) {
+    for (let entry in current_trade.nbt) {
         if (entry == 'name') {
             if (typeof nbt.display == 'undefined')
                 nbt.display = {};
 
-            item.custom_name = data[trade][i][`${type}`].nbt.name;
-            nbt.display.Name = `{"text":"${data[trade][i][`${type}`].nbt.name}","italic":false}`;
+            item.custom_name = current_trade.nbt.name;
+            nbt.display.Name = `{"text":"${current_trade.nbt.name}","italic":false}`;
         } else if (entry == 'description') {
             if (typeof nbt.display == 'undefined')
                 nbt.display = {};
 
-            item.custom_description = data[trade][i][`${type}`].nbt.description;
-            nbt.display.Lore = [`{"text":"${data[trade][i][`${type}`].nbt.description}","italic":false,"color":"gray"}`];
+            item.custom_description = current_trade.nbt.description;
+            nbt.display.Lore = [`{"text":"${current_trade.nbt.description}","italic":false,"color":"gray"}`];
         } else if (entry == 'model') {
-            item.custom_model = data[trade][i][`${type}`].nbt.model;
-            nbt.CustomModelData = data[trade][i][`${type}`].nbt.model;
+            item.custom_model = current_trade.nbt.model;
+            nbt.CustomModelData = current_trade.nbt.model;
         } else if (entry == 'enchants') {
             if (typeof nbt.Enchantments == 'undefined')
                 nbt.Enchantments = [];
 
-            item.item_enchants = data[trade][i][`${type}`].nbt.enchants;
-            for (let enchant in data[trade][i][`${type}`].nbt.enchants)
+            item.item_enchants = current_trade.nbt.enchants;
+            for (let enchant in current_trade.nbt.enchants)
                 nbt.Enchantments.push({
-                    id:`minecraft:${data[trade][i][`${type}`].nbt.enchants[enchant].id}`,
-                    lvl:data[trade][i][`${type}`].nbt.enchants[enchant].lvl});
+                    id:`minecraft:${current_trade.nbt.enchants[enchant].id}`,
+                    lvl:current_trade.nbt.enchants[enchant].lvl});
         } else if (entry == 'damage') {
-            item.damage = data[trade][i][`${type}`].nbt.damage;
-            nbt.Damage = data[trade][i][`${type}`].nbt.damage;
+            item.damage = current_trade.nbt.damage;
+            nbt.Damage = current_trade.nbt.damage;
         } else if (entry == 'unbreakable') {
-            item.unbreakable = data[trade][i][`${type}`].nbt.unbreakable;
-            nbt.Unbreakable = data[trade][i][`${type}`].nbt.unbreakable;
+            item.unbreakable = current_trade.nbt.unbreakable;
+            nbt.Unbreakable = current_trade.nbt.unbreakable;
         }
     }
 
