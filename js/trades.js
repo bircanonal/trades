@@ -266,7 +266,8 @@ function nbt(type,nbt,item,trade,i) {
         'custom_model': '',
         'enchants': [],
         'damage': '',
-        'unbreakable': 0
+        'unbreakable': 0,
+        'player_name': ''
     }
 
     for (let entry in current_trade.nbt) {
@@ -300,6 +301,9 @@ function nbt(type,nbt,item,trade,i) {
         } else if (entry == 'unbreakable') {
             item.unbreakable = current_trade.nbt.unbreakable;
             nbt.Unbreakable = current_trade.nbt.unbreakable;
+        } else if (entry == 'player_name') {
+            item.player_name = current_trade.nbt.player_name;
+            nbt.SkullOwner = current_trade.nbt.player_name;
         }
     }
 
