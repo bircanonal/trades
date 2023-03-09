@@ -1,0 +1,35 @@
+{
+    "version": "2023.0309",
+    "villagers": {
+        "test": {
+            "name": "Test villager",
+            "trades": [
+                {
+                    "buy": {
+                        "id": "minecraft:stone",
+                        "count": 1
+                    },
+                    "sell": {
+                        "id": "minecraft:barrier",
+                        "count": 2
+                    }
+                }
+            ]
+        },
+        "test2": {
+            "name": "Test villager 2",
+            "trades": [
+                {
+                    "buy": {
+                        "id": "minecraft:gold_block",
+                        "count": 1
+                    },
+                    "sell": {
+                        "id": "minecraft:barrier",
+                        "count": 2
+                    }
+                }
+            ]
+        }
+    }
+}

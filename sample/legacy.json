@@ -3,6 +3,10 @@
         {
             "id": "test",
             "name": "Test villager"
+        },
+        {
+            "id": "test2",
+            "name": "Test villager 2"
         }
     ],
     "random": [
@@ -16,6 +20,17 @@
                 "count": 2
             },
             "trades": ["test"]
+        },
+        {
+            "buy": {
+                "id": "minecraft:gold_block",
+                "count": 1
+            },
+            "sell": {
+                "id": "minecraft:barrier",
+                "count": 2
+            },
+            "trades": ["test2"]
         }
     ]
 }
