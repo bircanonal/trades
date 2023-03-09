@@ -1,0 +1,21 @@
+{
+    "trades": [
+        {
+            "id": "test",
+            "name": "Test villager"
+        }
+    ],
+    "random": [
+        {
+            "buy": {
+                "id": "minecraft:stone",
+                "count": 1
+            },
+            "sell": {
+                "id": "minecraft:barrier",
+                "count": 2
+            },
+            "trades": ["test"]
+        }
+    ]
+}
