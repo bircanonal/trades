@@ -15,7 +15,7 @@ function open_import_window() {
         <div class="info" style="text-align: center;">
             <p>Import villager trades data in <a href="https://github.com/plexiondev/trades/wiki/Creating-a-suitable-JSON-file">this format</a>.</p>
             <br>
-            <textarea class="generic" type="text" id="input" placeholder="Enter input.." style="width: 420px; height: 200px;"></textarea>
+            <textarea class="generic" type="text" id="input" placeholder="Enter input.." style="width: 420px; resize: vertical; height: 300px; min-height: 70px; max-height: 450px;"></textarea>
         </div>
         <div class="actions">
             <a role="button" class="button focus sheared small" onclick="import_data()"><span class="content">Import</span></a>
@@ -92,7 +92,7 @@ function generate(villager_id) {
 
     // spawn egg display (name)
     object.display = {Lore:[`{"text":"Name: ${name}","color":"gray","italic":false}`]};
-    
+
     // active effects
     //object.EntityTag = {ActiveEffects:[]}
     //for (let i in active_effects) {
@@ -248,12 +248,12 @@ function generate(villager_id) {
 }
 
 /**
- * 
+ *
  * @param {string} type buy/sell
  * @param {object} nbt NBT
  * @param {object} item item
  * @param {string} trade trade id
- * @param {string} i loop index
+ * @param {string} index in loop
  * @returns final nbt and item objects
  */
 function nbt(type,nbt,item,trade,i) {
