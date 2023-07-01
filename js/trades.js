@@ -25,7 +25,6 @@ function open_import_window() {
 
     // append
     document.getElementById('window_parent').appendChild(em_window);
-    feather.replace();
 }
 
 function import_data() {
@@ -106,30 +105,14 @@ function generate(villager_id) {
 
     // assign trades
     for (let trade in this_villager.trades) {
-        // process item
-        let buy_data = nbt(this_villager.trades[trade].buy);
-        let sell_data = nbt(this_villager.trades[trade].sell);
-
         // visual item
-        let buy_item = buy_data.item;
-        let sell_item = sell_data.item;
+        let buy_item = this_villager.trades[trade].buy;
+        let sell_item = this_villager.trades[trade].sell;
 
         // buy & sell data
         let items = {};
-
-        // buy item
-        items.buy = {
-            id: this_villager.trades[trade].buy.id,
-            Count: this_villager.trades[trade].buy.count,
-            tag: buy_data.nbt
-        };
-
-        // sell item
-        items.sell = {
-            id: this_villager.trades[trade].sell.id,
-            Count: this_villager.trades[trade].sell.count,
-            tag: sell_data.nbt
-        };
+        items.buy = create_item(this_villager.trades[trade].buy);
+        items.sell = create_item(this_villager.trades[trade].sell);
 
         // prevent trades from auto-locking
         // due to default mechanics
@@ -166,7 +149,7 @@ function generate(villager_id) {
         // buy item
         let em_buy_icon = document.createElement('th');
         em_buy_icon.classList.add('icon');
-        em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${this_villager.trades[trade].buy.id}.png"></div>`;
+        em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${this_villager.trades[trade].buy.id}.png"></div>`;
         em_record.appendChild(em_buy_icon);
         let em_buy_item = document.createElement('th');
         em_buy_item.classList.add('name');
@@ -179,7 +162,7 @@ function generate(villager_id) {
         // sell item
         let em_sell_icon = document.createElement('th');
         em_sell_icon.classList.add('icon');
-        em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://plexion.dev/img/item/${this_villager.trades[trade].sell.id}.png"></div>`;
+        em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${this_villager.trades[trade].sell.id}.png"></div>`;
         em_record.appendChild(em_sell_icon);
         let em_sell_item = document.createElement('th');
         em_sell_item.classList.add('name');
@@ -222,62 +205,6 @@ function generate(villager_id) {
     document.getElementById('output').innerHTML = output;
 }
 
-/**
- *
- * @param {object} this_trade trade item object
- * @returns final nbt and item objects
- */
-function nbt(this_trade) {
-    // default values
-    item = {
-        'custom_name': this_trade.id,
-        'custom_description': '',
-        'custom_model': '',
-        'enchants': [],
-        'damage': '',
-        'unbreakable': 0,
-        'player_name': ''
-    }
-
-    for (let entry in this_trade.nbt) {
-        if (entry == 'name') {
-            if (typeof nbt.display == 'undefined')
-                nbt.display = {};
-
-            item.custom_name = this_trade.nbt.name;
-            nbt.display.Name = `{"text":"${this_trade.nbt.name}","italic":false}`;
-        } else if (entry == 'description') {
-            if (typeof nbt.display == 'undefined')
-                nbt.display = {};
-
-            item.custom_description = this_trade.nbt.description;
-            nbt.display.Lore = [`{"text":"${this_trade.nbt.description}","italic":false,"color":"gray"}`];
-        } else if (entry == 'model') {
-            item.custom_model = this_trade.nbt.model;
-            nbt.CustomModelData = this_trade.nbt.model;
-        } else if (entry == 'enchants') {
-            if (typeof nbt.Enchantments == 'undefined')
-                nbt.Enchantments = [];
-
-            item.item_enchants = this_trade.nbt.enchants;
-            for (let enchant in this_trade.nbt.enchants)
-                nbt.Enchantments.push({
-                    id:`minecraft:${this_trade.nbt.enchants[enchant].id}`,
-                    lvl:this_trade.nbt.enchants[enchant].lvl});
-        } else if (entry == 'damage') {
-            item.damage = this_trade.nbt.damage;
-            nbt.Damage = this_trade.nbt.damage;
-        } else if (entry == 'unbreakable') {
-            item.unbreakable = this_trade.nbt.unbreakable;
-            nbt.Unbreakable = this_trade.nbt.unbreakable;
-        } else if (entry == 'player_name') {
-            item.player_name = this_trade.nbt.player_name;
-            nbt.SkullOwner = this_trade.nbt.player_name;
-        }
-    }
-
-    return {'nbt': nbt, 'item': item};
-}
 
 // copy
 function copy() {
