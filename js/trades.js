@@ -126,7 +126,7 @@ function generate(villager_id) {
 
 
         // visually display enchant in preview
-        let buy_enchant = '';
+        /*let buy_enchant = '';
         let sell_enchant = '';
         // check for enchants
         if (buy_item.nbt.enchants.length > 0)
@@ -141,7 +141,7 @@ function generate(villager_id) {
             format_buy_enchants = `${format_buy_enchants}${buy_item.nbt.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_item.nbt.enchants[enchant].lvl)}<br>`;
         for (let enchant in sell_item.nbt.enchants)
             format_sell_enchants = `${format_sell_enchants}${sell_item.nbt.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_item.nbt.enchants[enchant].lvl)}<br>`;
-
+        */
 
         // record
         let em_record = document.createElement('tr');
@@ -170,7 +170,7 @@ function generate(villager_id) {
         em_record.appendChild(em_sell_item);
 
         // tooltips
-        tippy(em_buy_item, {
+        /*tippy(em_buy_item, {
             content: `
             <strong>${buy_item.custom_name}</strong><br>
             <span style="color: var(--text-main);">${buy_item.custom_description}</span>
@@ -195,7 +195,7 @@ function generate(villager_id) {
             placement: 'bottom-start',
             allowHTML: true,
             arrow: false
-        });
+        });*/
 
         document.getElementById(`table-body`).appendChild(em_record);
     }
