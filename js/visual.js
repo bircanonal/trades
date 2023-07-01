@@ -6,10 +6,21 @@ function create_visual_item(item) {
         <img src="https://res.plexion.dev/minecraft/item/${item.id.replace('minecraft:','')}.png">
         <label class="count">${item.count}</label>
     </span>
-    <span class="info">
+    <!--<span class="info">
         <p>${item.id}</p>
-    </span>
+    </span>-->
     `);
+
+    tippy(em_item, {
+        content: `
+        <strong>${item.id}</strong><br>
+        <p>${JSON.stringify(item.tag_unparsed)}</p>
+        `,
+        followCursor: true,
+        placement: 'bottom-start',
+        allowHTML: true,
+        arrow: false
+    })
 
     return em_item;
 }

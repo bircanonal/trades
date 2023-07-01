@@ -61,13 +61,20 @@
         <textbox id="output"></textbox>
         <br><br><br><br><br>
         <label class="overl">Preview</label>
-        <ul class="trades" id="trades"></ul>
-        <br>
-        <div class="dl-wrap">
-            <dl>
-                <dt>Name</dt>
-                <dd id="attr.name"></dd>
-            </dl>
+        <div class="interface">
+            <div class="column">
+                <h5>Trades</h5>
+                <ul class="trades" id="trades"></ul>
+            </div>
+            <div class="column">
+                <h5>Villager</h5>
+                <div class="dl-wrap">
+                    <dl>
+                        <dt>Name</dt>
+                        <dd id="attr.name"></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
         <div class="gap"></div>
         <h5>Confused?</h5>
@@ -99,14 +106,23 @@
         background-color: var(--b6);
     }
 
-    .trades {
+    .interface {
+        display: flex;
+        gap: 40px;
+        margin-top: 10px;
+        background-color: var(--b5);
+        padding: 14px;
+        border-radius: 7px;
+        width: fit-content;
+    }
+
+    .trades, .column {
         display: flex;
         flex-direction: column;
         gap: 7px;
-        margin-top: 10px;
-        background-color: var(--b5);
-        padding: 7px;
-        border-radius: 7px;
+    }
+    .column {
+        gap: 10px;
     }
 
     .trade {
@@ -114,7 +130,8 @@
         background-color: var(--b4);
         border-radius: 7px;
         display: flex;
-        gap: 20px;
+        gap: 30px;
+        width: fit-content;
     }
     .trade .item {
         display: flex;
@@ -153,8 +170,11 @@
 
     .trade :is(.buy, .sell) {
         display: flex;
-        flex-direction: column;
+        /*flex-direction: column;*/
         gap: 7px;
+    }
+    .trade .buy {
+        width: 71px;
     }
 
     .trade .joiner {

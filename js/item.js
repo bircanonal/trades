@@ -26,7 +26,8 @@ function create_item(data) {
         tag: {
             display: {},
             Enchantments: []
-        }
+        },
+        tag_unparsed: data.nbt
     };
 
     // nbt
