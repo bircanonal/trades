@@ -96,10 +96,6 @@ function generate(villager_id) {
 
     // assign trades
     for (let trade in this_villager.trades) {
-        // visual item
-        let buy_item = this_villager.trades[trade].buy;
-        let sell_item = this_villager.trades[trade].sell;
-
         // extra buy option?
         let buyB = false;
         if (typeof this_villager.trades[trade].buyB != 'undefined')
@@ -121,25 +117,6 @@ function generate(villager_id) {
         // append to offers
         object.EntityTag.Offers.Recipes.push(items);
 
-
-        // visually display enchant in preview
-        /*let buy_enchant = '';
-        let sell_enchant = '';
-        // check for enchants
-        if (buy_item.nbt.enchants.length > 0)
-            buy_enchant = ' enchant';
-        if (sell_item.nbt.enchants.length > 0)
-            sell_enchant = ' enchant';
-
-        // format enchants
-        let format_buy_enchants = '';
-        let format_sell_enchants = '';
-        for (let enchant in buy_item.nbt.enchants)
-            format_buy_enchants = `${format_buy_enchants}${buy_item.nbt.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_item.nbt.enchants[enchant].lvl)}<br>`;
-        for (let enchant in sell_item.nbt.enchants)
-            format_sell_enchants = `${format_sell_enchants}${sell_item.nbt.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_item.nbt.enchants[enchant].lvl)}<br>`;
-        */
-
         // record
         let em_record = document.createElement('div');
         em_record.classList.add('trade');
@@ -159,34 +136,6 @@ function generate(villager_id) {
         em_record.appendChild(em_seperator);
         // sell item
         em_record_sell.appendChild(create_visual_item(items.sell));
-
-        // tooltips
-        /*tippy(em_buy_item, {
-            content: `
-            <strong>${buy_item.custom_name}</strong><br>
-            <span style="color: var(--text-main);">${buy_item.custom_description}</span>
-            <br>
-            <span style="color: var(--text-main);">${format_buy_enchants}</span><br>
-            <span style="color: var(--text-alt);">${this_villager.trades[trade].buy.id}</span>
-            `,
-            followCursor: true,
-            placement: 'bottom-start',
-            allowHTML: true,
-            arrow: false
-        });
-        tippy(em_sell_item, {
-            content: `
-            <strong>${sell_item.custom_name}</strong><br>
-            <span style="color: var(--text-main);">${sell_item.custom_description}</span>
-            <br>
-            <span style="color: var(--text-main);">${format_sell_enchants}</span><br>
-            <span style="color: var(--text-alt);">${this_villager.trades[trade].sell.id}</span>
-            `,
-            followCursor: true,
-            placement: 'bottom-start',
-            allowHTML: true,
-            arrow: false
-        });*/
 
         em_record.appendChild(em_record_buy);
         em_record.appendChild(em_seperator);
