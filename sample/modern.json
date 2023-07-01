@@ -1,0 +1,53 @@
+{
+    "version": "2023.0309",
+    "villagers": {
+        "test": {
+            "name": "Test villager",
+            "trades": [
+                {
+                    "buy": {
+                        "id": "minecraft:stone",
+                        "count": 1
+                    },
+                    "buyB": {
+                        "id": "minecraft:glass",
+                        "count": 1
+                    },
+                    "sell": {
+                        "id": "minecraft:barrier",
+                        "count": 2
+                    }
+                },
+                {
+                    "buy": {
+                        "id": "minecraft:stick",
+                        "count": 1
+                    },
+                    "sell": {
+                        "id": "minecraft:stick",
+                        "count": 10,
+                        "nbt": {
+                            "name": "blahaj",
+                            "description": "blue shark"
+                        }
+                    }
+                }
+            ]
+        },
+        "test2": {
+            "name": "Test villager 2",
+            "trades": [
+                {
+                    "buy": {
+                        "id": "minecraft:gold_block",
+                        "count": 1
+                    },
+                    "sell": {
+                        "id": "minecraft:barrier",
+                        "count": 2
+                    }
+                }
+            ]
+        }
+    }
+}
