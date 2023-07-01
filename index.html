@@ -85,8 +85,8 @@
         background-color: var(--b4);
         border-radius: 50px;
         font-size: 13px;
-        padding: 3px 5px;
-        font-weight: 600;
+        padding: 0 5px 1px;
+        font-weight: 700;
         color: var(--text-alt);
     }
 
@@ -102,12 +102,17 @@
     .trades {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 7px;
+        margin-top: 10px;
+        background-color: var(--b5);
+        padding: 7px;
+        border-radius: 7px;
     }
 
     .trade {
         padding: 7px;
-        background-color: var(--b5);
+        background-color: var(--b4);
+        border-radius: 7px;
         display: flex;
         gap: 20px;
     }
@@ -119,9 +124,11 @@
 
     .trade .item .icon {
         position: relative;
+        --w: 32px;
+        width: var(--w);
+        height: var(--w);
     }
     .trade .item .icon img {
-        --w: 32px;
         width: var(--w);
         height: var(--w);
         image-rendering: pixelated;
@@ -130,6 +137,14 @@
         position: absolute;
         right: 0;
         bottom: 0;
+    }
+
+    .trade .item .info p {
+        width: 200px;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     p {
