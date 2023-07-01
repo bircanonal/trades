@@ -22,7 +22,7 @@
 function create_item(data) {
     let item = {
         id: data.id,
-        count: data.count,
+        Count: data.count,
         tag: {
             display: {},
             Enchantments: []
@@ -51,7 +51,7 @@ function create_item(data) {
         if (entry == 'enchants') {
             for (let enchant in data.nbt.enchants) {
                 item.tag.Enchantments.push({
-                    id: 'minecraft' + data.nbt.enchants[enchant].id,
+                    id: data.nbt.enchants[enchant].id,
                     lvl: data.nbt.enchants[enchant].lvl
                 });
             }
