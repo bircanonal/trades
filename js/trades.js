@@ -129,18 +129,18 @@ function generate(villager_id) {
         let buy_enchant = '';
         let sell_enchant = '';
         // check for enchants
-        if (buy_item.enchants.length > 0)
+        if (buy_item.nbt.enchants.length > 0)
             buy_enchant = ' enchant';
-        if (sell_item.enchants.length > 0)
+        if (sell_item.nbt.enchants.length > 0)
             sell_enchant = ' enchant';
 
         // format enchants
         let format_buy_enchants = '';
         let format_sell_enchants = '';
-        for (let enchant in buy_item.enchants)
-            format_buy_enchants = `${format_buy_enchants}${buy_item.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_item.enchants[enchant].lvl)}<br>`;
-        for (let enchant in sell_item.enchants)
-            format_sell_enchants = `${format_sell_enchants}${sell_item.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_item.enchants[enchant].lvl)}<br>`;
+        for (let enchant in buy_item.nbt.enchants)
+            format_buy_enchants = `${format_buy_enchants}${buy_item.nbt.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(buy_item.nbt.enchants[enchant].lvl)}<br>`;
+        for (let enchant in sell_item.nbt.enchants)
+            format_sell_enchants = `${format_sell_enchants}${sell_item.nbt.enchants[enchant].id.replaceAll('_',' ').toProperCase()} ${convertToRoman(sell_item.nbt.enchants[enchant].lvl)}<br>`;
 
 
         // record
