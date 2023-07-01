@@ -9,6 +9,10 @@
                         "id": "minecraft:stone",
                         "count": 1
                     },
+                    "buyB": {
+                        "id": "minecraft:glass",
+                        "count": 1
+                    },
                     "sell": {
                         "id": "minecraft:barrier",
                         "count": 2

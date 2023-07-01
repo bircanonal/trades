@@ -100,9 +100,15 @@ function generate(villager_id) {
         let buy_item = this_villager.trades[trade].buy;
         let sell_item = this_villager.trades[trade].sell;
 
+        // extra buy option?
+        let buyB = false;
+        if (typeof this_villager.trades[trade].buyB != 'undefined')
+            buyB = true;
+
         // buy & sell data
         let items = {};
         items.buy = create_item(this_villager.trades[trade].buy);
+        if (buyB) items.buyB = create_item(this_villager.trades[trade].buyB);
         items.sell = create_item(this_villager.trades[trade].sell);
 
         // prevent trades from auto-locking
@@ -138,14 +144,21 @@ function generate(villager_id) {
         let em_record = document.createElement('div');
         em_record.classList.add('trade');
 
+        let em_record_buy = document.createElement('span');
+        em_record_buy.classList.add('buy');
+        let em_record_sell = document.createElement('span');
+        em_record_sell.classList.add('sell');
+
         // buy item
-        em_record.appendChild(create_visual_item(items.buy));
+        em_record_buy.appendChild(create_visual_item(items.buy));
+        if (buyB) em_record_buy.appendChild(create_visual_item(items.buyB));
         // seperator
         let em_seperator = document.createElement('span');
         em_seperator.classList.add('joiner');
+        em_seperator.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" class="lucide lucide-chevron-right icon w-20" icon-name="chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>';
         em_record.appendChild(em_seperator);
         // sell item
-        em_record.appendChild(create_visual_item(items.sell));
+        em_record_sell.appendChild(create_visual_item(items.sell));
 
         // tooltips
         /*tippy(em_buy_item, {
@@ -174,6 +187,10 @@ function generate(villager_id) {
             allowHTML: true,
             arrow: false
         });*/
+
+        em_record.appendChild(em_record_buy);
+        em_record.appendChild(em_seperator);
+        em_record.appendChild(em_record_sell);
 
         document.getElementById(`trades`).appendChild(em_record);
     }
