@@ -149,7 +149,7 @@ function generate(villager_id) {
         // buy item
         let em_buy_icon = document.createElement('th');
         em_buy_icon.classList.add('icon');
-        em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${items.buy.id}.png"></div>`;
+        em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://res.plexion.dev/minecraft/item/${items.buy.id.replace('minecraft:','')}.png"></div>`;
         em_record.appendChild(em_buy_icon);
         let em_buy_item = document.createElement('th');
         em_buy_item.classList.add('name');
@@ -162,7 +162,7 @@ function generate(villager_id) {
         // sell item
         let em_sell_icon = document.createElement('th');
         em_sell_icon.classList.add('icon');
-        em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${items.sell.id}.png"></div>`;
+        em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://res.plexion.dev/minecraft/item/${items.sell.id.replace('minecraft:','')}.png"></div>`;
         em_record.appendChild(em_sell_icon);
         let em_sell_item = document.createElement('th');
         em_sell_item.classList.add('name');
