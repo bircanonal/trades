@@ -149,11 +149,11 @@ function generate(villager_id) {
         // buy item
         let em_buy_icon = document.createElement('th');
         em_buy_icon.classList.add('icon');
-        em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${this_villager.trades[trade].buy.id}.png"></div>`;
+        em_buy_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${items.buy.id}.png"></div>`;
         em_record.appendChild(em_buy_icon);
         let em_buy_item = document.createElement('th');
         em_buy_item.classList.add('name');
-        em_buy_item.innerHTML = `${buy_item.custom_name}<label class="count">${this_villager.trades[trade].buy.count}</label>`;
+        em_buy_item.innerHTML = `${items.buy.id}<label class="count">${items.buy.count}</label>`;
         em_record.appendChild(em_buy_item);
         // seperator
         let em_seperator = document.createElement('th');
@@ -162,11 +162,11 @@ function generate(villager_id) {
         // sell item
         let em_sell_icon = document.createElement('th');
         em_sell_icon.classList.add('icon');
-        em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${this_villager.trades[trade].sell.id}.png"></div>`;
+        em_sell_icon.innerHTML = `<div class="headline-icon min" style="padding: 0; height: auto; position: relative; top: 10px;"><img src="https://old.plexion.dev/img/item/${items.sell.id}.png"></div>`;
         em_record.appendChild(em_sell_icon);
         let em_sell_item = document.createElement('th');
         em_sell_item.classList.add('name');
-        em_sell_item.innerHTML = `${sell_item.custom_name}<label class="count">${this_villager.trades[trade].sell.count}</label>`;
+        em_sell_item.innerHTML = `${items.sell.id}<label class="count">${items.sell.count}</label>`;
         em_record.appendChild(em_sell_item);
 
         // tooltips
