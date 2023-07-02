@@ -10,10 +10,25 @@
         damage: integer,
         unbreakable: boolean,
         player_name: string,
-        glow: boolean
+        glow: boolean,
+        can_place: [],
+        can_destroy: [],
+        hide_flags: []
     }
 }
 */
+
+let hide_flags = {
+    'enchants': 1,
+    'modifiers': 2,
+    'unbreakable': 4,
+    'can_destroy': 8,
+    'can_place': 16,
+    'misc': 32,
+    'dyed': 64,
+    'armour_trim': 128,
+    'all': 255
+}
 
 /**
  * create item via object
@@ -77,6 +92,13 @@ function create_item(data) {
             item.tag.CanPlaceOn = data.nbt.can_place;
         if (entry == 'can_destroy')
             item.tag.CanDestroy = data.nbt.can_destroy;
+
+        // hide flags
+        if (entry == 'hide_flags') {
+            item.tag.HideFlags = 0;
+            for (let flag in data.nbt.hide_flags)
+                item.tag.HideFlags += hide_flags[data.nbt.hide_flags[flag]];
+        }
     }
 
     return item;
