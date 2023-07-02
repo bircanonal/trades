@@ -4,7 +4,7 @@ function create_visual_item(item) {
     em_item.innerHTML = (`
     <span class="icon">
         <img src="https://res.plexion.dev/minecraft/item/${item.id.replace('minecraft:','')}.png">
-        <label class="count">${item.count}</label>
+        <label class="count">${item.Count}</label>
     </span>
     <!--<span class="info">
         <p>${item.id}</p>
