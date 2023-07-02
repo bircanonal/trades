@@ -34,19 +34,16 @@ function create_item(data) {
     // nbt
     for (let entry in data.nbt) {
         // custom name
-        if (entry == 'name') {
+        if (entry == 'name')
             item.tag.display.Name = `{"text":"${data.nbt.name}","italic":false}`;
-        }
 
         // description
-        if (entry == 'description') {
+        if (entry == 'description')
             item.tag.display.Lore = [`{"text":"${data.nbt.description}","italic":false,"color":"gray"}`];
-        }
 
         // custom model id
-        if (entry == 'model') {
+        if (entry == 'model')
             item.tag.CustomModelData = data.nbt.model;
-        }
 
         // enchants
         if (entry == 'enchants') {
@@ -59,25 +56,27 @@ function create_item(data) {
         }
 
         // damage
-        if (entry == 'damage') {
+        if (entry == 'damage')
             item.tag.Damage = data.nbt.damage;
-        }
 
         // unbreakable
-        if (entry == 'unbreakable') {
+        if (entry == 'unbreakable')
             item.tag.Unbreakable = data.nbt.unbreakable;
-        }
 
         // player name
-        if (entry == 'player_name') {
+        if (entry == 'player_name')
             item.tag.SkullOwner = data.nbt.player_name;
-        }
 
         // glow
-        if (entry == 'glow') {
+        if (entry == 'glow')
             if (data.nbt.glow)
                 item.tag.Enchantments.push({});
-        }
+
+        // can place/destroy
+        if (entry == 'can_place')
+            item.tag.CanPlaceOn = data.nbt.can_place;
+        if (entry == 'can_destroy')
+            item.tag.CanDestroy = data.nbt.can_destroy;
     }
 
     return item;
