@@ -9,7 +9,8 @@
         enchants: [],
         damage: integer,
         unbreakable: boolean,
-        player_name: string
+        player_name: string,
+        glow: boolean
     }
 }
 */
@@ -70,6 +71,12 @@ function create_item(data) {
         // player name
         if (entry == 'player_name') {
             item.tag.SkullOwner = data.nbt.player_name;
+        }
+
+        // glow
+        if (entry == 'glow') {
+            if (data.nbt.glow)
+                item.tag.Enchantments.push({});
         }
     }
 
