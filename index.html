@@ -65,6 +65,11 @@
             <div class="column">
                 <h5>Trades</h5>
                 <ul class="trades" id="trades"></ul>
+                <div class="trades">
+                    <button class="trade add" onclick="add_trade()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                    </button>
+                </div>
             </div>
             <div class="column">
                 <h5>Villager</h5>
@@ -95,6 +100,29 @@
         padding: 0 5px 1px;
         font-weight: 700;
         color: var(--text-alt);
+    }
+
+
+    #add_trade_window {
+        max-width: 73%;
+    }
+    .big-input {
+        text-align: left;
+    }
+    .big-inputs {
+        display: flex;
+        gap: 10px;
+    }
+    .big-input.amount {
+        width: 60px;
+    }
+
+    .big-inputs > :nth-child(3) {
+        flex: 1;
+        max-width: initial;
+    }
+    .big-input input {
+        width: 100%;
     }
 
 
@@ -131,12 +159,24 @@
         border-radius: 7px;
         display: flex;
         gap: 30px;
-        width: fit-content;
+        width: 197px;
+        border: 1px solid transparent;
+        transition: border 0.15s, transform 0.15s;
     }
     .trade .item {
         display: flex;
         align-items: center;
         gap: 10px;
+    }
+    .trade.add {
+        justify-content: center;
+        align-items: center;
+    }
+    .trade.add:is(:hover, :focus-visible) {
+        border-color: var(--b2);
+    }
+    .trade.add:active {
+        transform: scale(0.98);
     }
 
     .trade .item .icon {
