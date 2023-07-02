@@ -21,7 +21,7 @@ function add_trade() {
     em_window.setAttribute('id','add_trade_window');
 
     em_window.innerHTML = (`
-        <div class="cover"><img src="https://sky.plexion.dev/wall/mine.png"></div>
+        <div class="cover"><img src="https://sky.plexion.dev/wall/mine.png" style="opacity: 0;"></div>
         <div class="header" style="text-align: center;"><h4>Add trade</h4></div>
         <div class="info" style="text-align: center;">
             <div class="big-inputs">
