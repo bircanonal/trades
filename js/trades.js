@@ -159,6 +159,8 @@ function select(import_data) {
     document.getElementById('action.generate').setAttribute('onclick','call_gen()');
     document.getElementById('action.generate').classList.remove('shine');
     document.getElementById('action.generate').innerHTML = `<span class="content">Generate</span>`;
+
+    document.getElementById('trades_add').classList.add('imported');
 }
 
 function call_gen() {
