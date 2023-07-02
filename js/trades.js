@@ -86,6 +86,11 @@ function finalise_trade() {
         for (let entry2 in entries2)
             trade_creating[`${entries[entry]}${entries2[entry2]}`] = document.getElementById(`${entries[entry]}${entries2[entry2]}`).value;
 
+    if (trade_creating.buy == '') {
+        notify('error','Your trade is not complete.',false);
+        return;
+    }
+
     let new_trade = {};
     new_trade.buy = {
         id: trade_creating.buy,
