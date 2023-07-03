@@ -155,6 +155,7 @@ function generate(villager_id) {
         em_record.appendChild(em_record_buy);
         em_record.appendChild(em_seperator);
         em_record.appendChild(em_record_sell);
+        //em_record.appendChild(trade_actions());
 
         document.getElementById(`trades`).appendChild(em_record);
     }

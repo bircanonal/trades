@@ -97,3 +97,15 @@ function finalise_trade() {
     generate('villager');
     exit_windows();
 }
+
+function trade_actions(trade_id) {
+    let em_actions = document.createElement('div');
+    em_actions.classList.add('actions');
+    em_actions.innerHTML = (`
+    <button class="button delete" onclick="delete_trade(${trade_id})">
+        del
+    </button>
+    `);
+
+    return em_actions;
+}
