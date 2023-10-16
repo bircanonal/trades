@@ -1,9 +1,12 @@
-## Villager trade generator
+<img
+    align="right" alt="icon" width="200px"
+    src="https://github.com/katelyynn/trades/assets/46572320/58bbe78a-9afb-4e5f-8c74-2a2e6cfb7cc1"
+/>
 
-Easily generate minecraft villager trades using simple JSON input. Originally created for use in [skyplex](https://github.com/plexiondev/skyplex), but now public.
+# villager trades generator
 
-Visit now @ [trades.plexion.dev](https://trades.plexion.dev)
+easily generate villager trades using a simple JSON input (and potential GUI interface someday). originally created for use in [skyplex](https://github.com/katelyynn/skyplex), but now public n awesome for everyone (if you so desire). documentation available in the [wiki](https://github.com/katelyynn/trades/wiki/Creating-a-suitable-JSON-file).
 
-https://github.com/plexiondev/trades/assets/46572320/8ba09ae7-3bfe-4899-89ea-1b143fa3deb4
+## [trades.plexion.dev](https://trades.plexion.dev/)
 
-For instructions on creating a suitable JSON file and using the site, check the [wiki](https://github.com/plexiondev/trades/wiki/Creating-a-suitable-JSON-file).
+https://github.com/katelyynn/trades/assets/46572320/8ba09ae7-3bfe-4899-89ea-1b143fa3deb4
